@@ -1,3 +1,11 @@
+<?php 
+		session_start();
+
+	if(!isset($_SESSION['user'][0]['name'])){
+		header("Location:index.php");	
+	}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -168,7 +176,9 @@
         <li ><a href="home.html"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="active dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
+           <?php if($_SESSION['user'][0][$dbCreateAccess] == '1'){ ?>
             <li><a href="CreateRequirements.php">Create Requirements</a></li>
+			<?php } ?>
             <li><a href="ViewRequirements.php">View & Edit Requirements</a></li>
           </ul>
         </li>
@@ -186,30 +196,36 @@
 <ul class="row">
 <!-- start -->
 
-
+<?php 
+	
+	require 'operations/constants.php';
+	require_once 'operations/requirementViewProcess.php';
+	for($i=0;$i< count($requireResults);$i++){
+?>
 
 		<li class="span6">
 <div class="inner-wrap">
 
-<h3>Client:/Skill:</h3>
+<h3><?php echo  $requireResults[$i][$requireClient];?></h3>
+<h4><?php echo  $requireResults[$i][$requireSkill];?></h4>
 <header>
-<p class="clearfix"><span class="company-name">Hire type:    | Joining Location: | TAT Date:<i class="icon-calendar"></i></span></p>
+<p class="clearfix"><span class="company-name">Hire type: <?php echo $requireResults[$i][$requireHire]; ?>   | Joining Location: <?php echo $requireResults[$i][$requireWorkLocation]; ?> | TAT Date:<i class="icon-calendar"> <?php echo $requireResults[$i][$requireTat]; ?></i></span></p>
 </header>
 <p class="job-info">
-<span class="location-info"><i class="icon-map-marker"></i>Interview/Walkin Location:  </span>
-<span class="detail"><i class="icon-calendar"></i> <strong>Notice: </strong></span><br>
-<span><strong>Job description:</strong></span>
+<span class="location-info"><i class="icon-map-marker"></i>Interview/Walkin Location: <?php echo $requireResults[$i][$requireInterviewLocation]; ?> </span>
+<span class="detail"><i class="icon-calendar"></i> <strong>Notice: <?php echo $requireResults[$i][$requireNotice]; ?>  </strong></span><br>
+<span><strong>Job description: <?php echo $requireResults[$i][$requireDescription]; ?> </strong></span>
 </p>
 
 <footer>
 <p class="clearfix">
-<span class="experience"><i class="icon-user"></i> Experience: 1-3&nbsp;yrs/Band:</span>
- <span class="metadata"><i class="icon-calendar"></i> Interview/walkin Date:  Mar 31&nbsp&nbsp&nbsp&nbsp<span><a href="">Edit<span></span>
+<span class="experience"><i class="icon-user"></i> Experience: <?php echo $requireResults[$i][$requireExperience];?>&nbsp;/Band:  <?php echo $requireResults[$i][$requireBand];?></span>
+ <span class="metadata"><i class="icon-calendar"></i> Interview/walkin Date:  <?php echo $requireResults[$i][$requireInterviewDate];?> &nbsp&nbsp&nbsp&nbsp<span><a href="EditRequirements.php?id=<?php echo $requireResults[$i][$requireid] ?>">Edit<span></span>
 </p>
 </footer>
 </div>
 </li>
-	
+	<?php } ?>
   </ul>     
       </div>
       <!-- /row --> 

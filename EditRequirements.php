@@ -1,3 +1,20 @@
+<?php 
+		session_start();
+
+	if(!isset($_SESSION['user'][0]['name'])){
+		header("Location:index.php");	
+	}if(!isset($_GET['id'])){
+		header("Location:ViewRequirements.php");
+	}
+	
+	require'operations/connect.php';
+	require 'operations/constants.php';
+	$database =  new connect();
+	$id =  htmlspecialchars($_GET['id']);
+	$query = "SELECT * FROM requirements WHERE rid='$id'";
+	
+	$rows = $database->getRowsDatabase($query);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -86,7 +103,9 @@ document.getElementById('bandid').style.display='none';
         <li ><a href="home.html"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="active dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
+           <?php if($_SESSION['user'][0][$dbCreateAccess] == '1'){ ?>
             <li><a href="CreateRequirements.php">Create Requirements</a></li>
+			<?php } ?>
             <li><a href="ViewRequirements.php">View & Edit Requirements</a></li>
           </ul>
         </li>
@@ -112,37 +131,43 @@ document.getElementById('bandid').style.display='none';
               <div class="widget big-stats-container">
                 <div class="widget-content">
 				
-                  <form style="margin-top:30px" class="span6 form-horizontal">
+                  <form  action="editRequirementBack.php" method="post"  style="margin-top:30px" class="span6 form-horizontal">
 				  <!-- Text input-->
 					<div class="control-group">
 					  <label class="control-label" for="JobId">Job Id</label>  
 					  <div class="controls">
-					  <input id="JobId" name="JobId" type="text" placeholder="" class="form-control span4 input-md" required="">
+					  <input type="hidden" name="rqid" value="<?php echo $id; ?>" />
+					  <input id="JobId" name="JobId" type="text" placeholder="" value="<?php echo  $rows[0][$requireJobid];?>" class="form-control span4 input-md" required="">
 						
 					  </div>
 					</div>
+					
+					<?php 
+					
+						$client =  $rows[0][$requireClient];
+					?>
 					<!-- Select Basic -->
 					<div class="control-group">
 					  <label class="control-label" for="client">Client</label>
 					  <div class="controls">
 						<select id="client" name="client" required onchange="selectrow1();" class="span4 form-control">
 						<option value="" disabled selected hidden>Select Client</option>
-						  <option value="IBM">IBM</option>
-						  <option value="CTS">CTS</option>
+						  <option <?php if($client == 'IBM'){ echo 'selected';} ?> value="IBM">IBM</option>
+						  <option <?php if($client == 'CTS'){ echo 'selected';} ?> value="CTS">CTS</option>
 						</select>
 					  </div>
 					</div>
 
-
+					<?php $hire =  $rows[0][$requireHire]; ?>
 					<!-- Select Basic -->
 					<div class="control-group">
 					  <label class="control-label" for="HireType">Hire Type</label>
 					  <div class="controls">
 						<select id="HireType" name="HireType" required class="span4 form-control">
 						<option value="" disabled selected hidden>Select hire type</option>
-						  <option value="Permenent">Permenent</option>
-						  <option value="Contract">Contract</option>
-						  <option value="Contract to Hire">Contract to Hire</option>
+						  <option <?php if($hire == 'Permenent'){echo 'selected';}?> value="Permenent">Permenent</option>
+						  <option <?php if($hire == 'Contract'){echo 'selected';}?> value="Contract">Contract</option>
+						  <option <?php if($hire == 'Contract to Hire'){echo 'selected';}?> value="Contract to Hire">Contract to Hire</option>
 						</select>
 					  </div>
 					</div>
@@ -150,7 +175,7 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="Skill">Skill</label>  
 					  <div class="controls">
-						<input id="Skill" name="Skill" type="text" placeholder="" class="form-control span4  input-md" required="">
+						<input id="Skill" name="Skill" type="text" placeholder="" value="<?php echo  $rows[0][$requireSkill];?>" class="form-control span4  input-md" required="">
 						
 					  </div>
 					</div>
@@ -158,21 +183,23 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="Notice">Notice</label>  
 					  <div class="controls">
-					    <input id="Notice" name="Notice" type="text" placeholder="" required class="form-control span4 input-md">
+					    <input id="Notice" name="Notice" type="text" placeholder="" value="<?php echo  $rows[0][$requireNotice];?>" required class="form-control span4 input-md">
 					  </div>
 					</div>
+					
+					<?php $band =  $rows[0][$requireBand]; ?>
 					<!-- Select Basic -->
 					<div id="bandid" class="control-group">
 					  <label class="control-label" for="Band">Band</label>
 					  <div class="controls">
 						<select id="Band" name="Band" class="span4 form-control">
 						<option value="" disabled selected hidden>Select Band</option>
-						  <option value="6G">6G</option>
-						  <option value="6A">6A</option>
-						  <option value="6B">6B</option>
-						  <option value="7A">7A</option>
-						  <option value="7B">7B</option>
-						  <option value="8">8</option>
+						  <option  <?php if($band == '6G'){ echo 'selected';} ?> value="6G">6G</option>
+						  <option <?php if($band == '6A'){ echo 'selected';} ?> value="6A">6A</option>
+						  <option <?php if($band == '6B'){ echo 'selected';} ?> value="6B">6B</option>
+						  <option <?php if($band == '7A'){ echo 'selected';} ?> value="7A">7A</option>
+						  <option <?php if($band == '7B'){ echo 'selected';} ?> value="7B">7B</option>
+						  <option <?php if($band == '8'){ echo 'selected';} ?> value="8">8</option>
 						</select>
 					  </div>
 					</div>
@@ -180,7 +207,7 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="Experience">Experience</label>  
 					  <div class="controls">
-					  <input id="Experience" name="Experience" type="text" placeholder="" class="form-control span4 input-md" required="">
+					  <input id="Experience" name="Experience" type="text" value="<?php echo  $rows[0][$requireExperience];?>" placeholder="" class="form-control span4 input-md" required="">
 						
 					  </div>
 					</div>
@@ -188,26 +215,28 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="JobDescription">Job Description</label>
 					  <div class="controls">                     
-						<textarea class="form-control span4" id="JobDescription" required name="JobDescription"></textarea>
+						<textarea class="form-control span4" id="JobDescription" required name="JobDescription"><?php echo  $rows[0][$requireDescription];?></textarea>
 					  </div>
 					</div>
 					<!-- Text input-->
 					<div class="control-group">
 					  <label class="col-md-4 control-label" for="WorkingLocation">WorkingLocation</label>  
 					  <div class="controls">
-					  <input id="WorkingLocation" name="WorkingLocation" type="text" placeholder="" class="form-control span4 input-md" required="">
+					  <input id="WorkingLocation" name="WorkingLocation" value="<?php echo  $rows[0][$requireWorkLocation];?>" type="text" placeholder="" class="form-control span4 input-md" required="">
 						
 					  </div>
 					</div>
+					
+					<?php $interWalk =   $rows[0][$requireInterviewWalkin];?>
 					<div class="control-group">											
 						<label class="control-label">Interview/Walkin</label>
 							 <div class="controls">
                                 <label class="radio inline">
-                                     <input type="radio" name="InterviewWalkin" onclick="validateinterview();" id="InterviewWalkin-0" value="Interview" >
+                                     <input type="radio" name="InterviewWalkin" onclick="validateinterview();" id="InterviewWalkin-0" <?php if($interWalk == 'Interview'){ echo 'checked'; } ?> value="Interview" >
       Interview
                                  </label>
                                 <label class="radio inline">
-                                     <input type="radio" name="InterviewWalkin" onclick="validatewalkin();" id="InterviewWalkin-1" value="Walkin">
+                                     <input type="radio" name="InterviewWalkin" onclick="validatewalkin();" id="InterviewWalkin-1" <?php if($interWalk == 'Walkin'){ echo 'checked'; } ?> value="Walkin">
       Walkin
                                 </label>
                             </div>	<!-- /controls -->			
@@ -218,7 +247,7 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="InterviewLocation">Interview Location</label>  
 					  <div class="controls">
-					  <input id="InterviewLocation" name="InterviewLocation" type="text" placeholder="" class="form-control span4 input-md" >
+					  <input id="InterviewLocation" name="InterviewLocation" type="text" value="<?php  if($interWalk == 'Interview'){ echo $rows[0][$requireInterviewLocation]; }?>" placeholder="" class="form-control span4 input-md" >
 						
 					  </div>
 					</div>
@@ -228,7 +257,7 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="control-label" for="WalkinLocation">Walkin Location</label>  
 					  <div class="controls">
-					  <input id="WalkinLocation" name="WalkinLocation" type="text" placeholder="" class="form-control span4 input-md" >
+					  <input id="WalkinLocation" name="WalkinLocation" type="text" value="<?php  if($interWalk == 'Walkin'){ echo $rows[0][$requireInterviewLocation]; }?>" placeholder="" class="form-control span4 input-md" >
 						
 					  </div>
 					</div>
@@ -238,7 +267,7 @@ document.getElementById('bandid').style.display='none';
 					<div  class="control-group">
 					  <label class="col-md-4 control-label" for="InterviewDate">Interview Date</label>  
 					  <div class="controls">
-					  <input id="InterviewDate" name="InterviewDate" type="date" placeholder="" class="form-control span4 input-md" >
+					  <input id="InterviewDate" name="InterviewDate" type="date" value="<?php  if($interWalk == 'Interview'){ echo $rows[0][$requireInterviewDate]; }?>" placeholder="" class="form-control span4 input-md" >
 						
 					  </div>
 					</div>
@@ -248,7 +277,7 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="col-md-4 control-label" for="WalkinDate">Walkin Date</label>  
 					  <div class="controls">
-					  <input id="WalkinDate" name="WalkinDate" type="date" placeholder="" class="form-control span4 input-md" >
+					  <input id="WalkinDate" name="WalkinDate" type="date" placeholder="" value="<?php  if($interWalk == 'Walkin'){ echo $rows[0][$requireInterviewDate]; }?>" class="form-control span4 input-md" >
 						
 					  </div>
 					</div>
@@ -257,15 +286,26 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="col-md-4 control-label" for="RequirementAssign">Requirement Assign</label>  
 					  <div class="controls">
-					  <input id="RequirementAssign" name="RequirementAssign" type="text" placeholder="" class="form-control span4 input-md" required="">
-						
+					  
+						<select name="assign" class="form-control span4 input-md">
+							<option value="" disabled selected hidden>Select Assign</option>
+							<?php 
+							
+								$teamQuery = "SELECT name FROM team";
+								$users = $database->getRowsDatabase($teamQuery);
+								
+								for($i = 0; $i < count($users); $i++){
+							 ?>
+								<option <?php if($users[$i]['name'] == $rows[0][$requireAssign]){ echo 'selected';} ?> value="<?php echo $users[$i]['name'];?>"><?php echo $users[$i]['name'];?></option>
+							<?php } ?>
+						</select>
 					  </div>
 					</div>
 					<!-- Text input-->
 					<div class="control-group">
 					  <label class="col-md-4 control-label" for="TAT">TAT Date</label>  
 					  <div class="controls">
-					  <input id="TAT" name="TATDate" type="date" placeholder="" class="form-control span4 input-md" required="">
+					  <input id="TAT" name="TATDate" type="date" value="<?php echo $rows[0][$requireTat]; ?>" placeholder="" class="form-control span4 input-md" required="">
 						
 					  </div>
 					</div>

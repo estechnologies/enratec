@@ -1,3 +1,12 @@
+<?php 
+		session_start();
+
+	if(!isset($_SESSION['user'][0]['name'])){
+		header("Location:index.php");	
+	}else if($_SESSION['user'][0][$dbCreateAccess] != '1'){
+		header("Location:home.php");
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -112,7 +121,7 @@ document.getElementById('bandid').style.display='none';
               <div class="widget big-stats-container">
                 <div class="widget-content">
 				
-                  <form style="margin-top:30px" class="span6 form-horizontal">
+                  <form action="requirementCreateBack.php" method="post" margin-top:30px" class="span6 form-horizontal">
 					<!-- Select Basic -->
 					  <!-- Text input-->
 					<div class="control-group">
@@ -257,8 +266,11 @@ document.getElementById('bandid').style.display='none';
 					<div class="control-group">
 					  <label class="col-md-4 control-label" for="RequirementAssign">Requirement Assign</label>  
 					  <div class="controls">
-					  <input id="RequirementAssign" name="RequirementAssign" type="text" placeholder="" class="form-control span4 input-md" required="">
-						
+					 
+						<select name="assign" class="form-control span4 input-md">
+							<option value="" disabled selected hidden>Select Assign</option>
+							<?php   require_once'operations/assignProcess.php';  ?>
+						</select>
 					  </div>
 					</div>
 					<!-- Text input-->
@@ -266,6 +278,8 @@ document.getElementById('bandid').style.display='none';
 					  <label class="col-md-4 control-label" for="TAT">TAT Date</label>  
 					  <div class="controls">
 					  <input id="TAT" name="TATDate" type="date" placeholder="" class="form-control span4 input-md" required="">
+						
+						
 						
 					  </div>
 					</div>
