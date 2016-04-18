@@ -1,6 +1,5 @@
-<?php 
-		session_start();
-
+<?php
+ session_start();
 	if(!isset($_SESSION['user'][0]['name'])){
 		header("Location:index.php");	
 	}if(!isset($_GET['id'])){
@@ -100,7 +99,7 @@ document.getElementById('bandid').style.display='none';
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li ><a href="home.html"><i class="icon-home"></i><span>Home</span> </a> </li>
+        <li ><a href="home.php"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="active dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
            <?php if($_SESSION['user'][0][$dbCreateAccess] == '1'){ ?>
@@ -289,15 +288,7 @@ document.getElementById('bandid').style.display='none';
 					  
 						<select name="assign" class="form-control span4 input-md">
 							<option value="" disabled selected hidden>Select Assign</option>
-							<?php 
-							
-								$teamQuery = "SELECT name FROM team";
-								$users = $database->getRowsDatabase($teamQuery);
-								
-								for($i = 0; $i < count($users); $i++){
-							 ?>
-								<option <?php if($users[$i]['name'] == $rows[0][$requireAssign]){ echo 'selected';} ?> value="<?php echo $users[$i]['name'];?>"><?php echo $users[$i]['name'];?></option>
-							<?php } ?>
+							<?php require_once'operations/assignEditProcess.php';?>
 						</select>
 					  </div>
 					</div>

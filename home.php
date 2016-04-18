@@ -54,11 +54,15 @@
   <!-- /navbar-inner --> 
 </div>
 <!-- /navbar -->
+
+
+
+
 <div class="subnavbar">
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li class="active"><a href="index.html"><i class="icon-home"></i><span>Home</span> </a> </li>
+        <li class="active"><a href="home.php"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
           	<?php if($_SESSION['user'][0][$dbCreateAccess] == '1'){ ?>

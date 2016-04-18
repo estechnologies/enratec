@@ -1,6 +1,7 @@
 <?php 
 		session_start();
-
+	require_once'operations/constants.php';
+		
 	if(!isset($_SESSION['user'][0]['name'])){
 		header("Location:index.php");	
 	}else if($_SESSION['user'][0][$dbCreateAccess] != '1'){
@@ -92,7 +93,7 @@ document.getElementById('bandid').style.display='none';
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li ><a href="home.html"><i class="icon-home"></i><span>Home</span> </a> </li>
+        <li ><a href="home.php"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="active dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="CreateRequirements.php">Create Requirements</a></li>
@@ -121,11 +122,11 @@ document.getElementById('bandid').style.display='none';
               <div class="widget big-stats-container">
                 <div class="widget-content">
 				
-                  <form action="requirementCreateBack.php" method="post" margin-top:30px" class="span6 form-horizontal">
+                  <form action="requirementCreateBack.php" method="post" style=" margin-top:30px" class="span6 form-horizontal">
 					<!-- Select Basic -->
 					  <!-- Text input-->
 					<div class="control-group">
-					  <label class="control-label" for="JobId">Job Id</label>  
+					  <label class="control-label" for="JobId">Job/CSA ID</label>  
 					  <div class="controls">
 					  <input id="JobId" name="JobId" type="text" placeholder="" class="form-control span4 input-md" required="">
 						
@@ -171,7 +172,8 @@ document.getElementById('bandid').style.display='none';
 					  </div>
 					</div>
 					<!-- Select Basic -->
-					<div id="bandid" class="control-group">
+					<div id="bandid" >
+					<div class="control-group">
 					  <label class="control-label" for="Band">Band</label>
 					  <div class="controls">
 						<select id="Band" name="Band" class="span4 form-control">
@@ -184,6 +186,7 @@ document.getElementById('bandid').style.display='none';
 						  <option value="8">8</option>
 						</select>
 					  </div>
+					</div>
 					</div>
 					<!-- Text input-->
 					<div class="control-group">

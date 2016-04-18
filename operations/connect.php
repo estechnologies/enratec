@@ -3,7 +3,7 @@
     class connect {
         private $host = 'localhost';
         private $username ='root';
-        private $password ='19931993';
+        private $password ='';
         private $database ='enratec';
         
         

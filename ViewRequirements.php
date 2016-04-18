@@ -1,11 +1,10 @@
-<?php 
-		session_start();
-
+<?php session_start();
 	if(!isset($_SESSION['user'][0]['name'])){
 		header("Location:index.php");	
 	}
+	error_reporting(0);
+	require'operations/constants.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,6 +52,10 @@
 }.jobs-section ul li p.job-info {
     height: 62px;
     overflow: hidden;
+}
+.jobs-section ul li p.job-info {
+    height: 250px;
+    overflow: hidden;
 }.jobs-section ul li header p {
     margin-bottom: 7px;
     font-size: 13px;
@@ -62,11 +65,11 @@
     overflow: hidden;
 }
 .jobs-section ul li p.job-info {
-    height: 62px;
+    height: 250px;
     overflow: hidden;
 }
 .jobs-section ul li p {
-    color: #bbb;
+    color: #332626;
     font-size: 12px;
     line-height: 21px;
 }
@@ -173,7 +176,7 @@
   <div class="subnavbar-inner">
     <div class="container">
       <ul class="mainnav">
-        <li ><a href="home.html"><i class="icon-home"></i><span>Home</span> </a> </li>
+        <li ><a href="home.php"><i class="icon-home"></i><span>Home</span> </a> </li>
 		 <li class="active dropdown"><a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown"> <i class="icon-list-alt"></i><span></i><span>Requirements</span> <b class="caret"></b></a>
           <ul class="dropdown-menu">
            <?php if($_SESSION['user'][0][$dbCreateAccess] == '1'){ ?>
@@ -206,21 +209,20 @@
 		<li class="span6">
 <div class="inner-wrap">
 
-<h3><?php echo  $requireResults[$i][$requireClient];?></h3>
-<h4><?php echo  $requireResults[$i][$requireSkill];?></h4>
+<h3><i class="icon-user"></i> Client: <?php echo  $requireResults[$i][$requireClient];?> | Skill: <?php echo  $requireResults[$i][$requireSkill];?></h3>
 <header>
-<p class="clearfix"><span class="company-name">Hire type: <?php echo $requireResults[$i][$requireHire]; ?>   | Joining Location: <?php echo $requireResults[$i][$requireWorkLocation]; ?> | TAT Date:<i class="icon-calendar"> <?php echo $requireResults[$i][$requireTat]; ?></i></span></p>
+<p class="clearfix"><span class="company-name">Hire type: <?php echo $requireResults[$i][$requireHire]; ?>   | <span style="color:green;" ><i class="icon-map-marker"></i>&nbsp&nbsp Joining Location: <?php echo $requireResults[$i][$requireWorkLocation]; ?> </span>| TAT Date:<i class="icon-calendar"> <?php echo $requireResults[$i][$requireTat]; ?></i></span></p>
 </header>
 <p class="job-info">
-<span class="location-info"><i class="icon-map-marker"></i>Interview/Walkin Location: <?php echo $requireResults[$i][$requireInterviewLocation]; ?> </span>
-<span class="detail"><i class="icon-calendar"></i> <strong>Notice: <?php echo $requireResults[$i][$requireNotice]; ?>  </strong></span><br>
-<span><strong>Job description: <?php echo $requireResults[$i][$requireDescription]; ?> </strong></span>
+<span style="color:green;" class="location-info"><i class="icon-map-marker"></i>&nbsp&nbsp Interview/Walkin Location: <?php echo $requireResults[$i][$requireInterviewLocation]; ?> </span>
+<span class="detail"><i class="icon-calendar"></i> <strong style="color:red;">Notice: <?php echo $requireResults[$i][$requireNotice]; ?>  </strong></span><br>
+<span><strong><b style="font-size:13px;Color:red;font-weight:700;" >Job Description: </b><?php echo $requireResults[$i][$requireDescription]; ?> </strong></span>
 </p>
 
 <footer>
-<p class="clearfix">
+<p style="color:black;" class="clearfix">
 <span class="experience"><i class="icon-user"></i> Experience: <?php echo $requireResults[$i][$requireExperience];?>&nbsp;/Band:  <?php echo $requireResults[$i][$requireBand];?></span>
- <span class="metadata"><i class="icon-calendar"></i> Interview/walkin Date:  <?php echo $requireResults[$i][$requireInterviewDate];?> &nbsp&nbsp&nbsp&nbsp<span><a href="EditRequirements.php?id=<?php echo $requireResults[$i][$requireid] ?>">Edit<span></span>
+ <span class="metadata"><i class="icon-calendar"></i> Interview/walkin Date:  <?php echo $requireResults[$i][$requireInterviewDate];?> &nbsp&nbsp&nbsp&nbsp<span style="color:blue;"><a href="EditRequirements.php?id=<?php echo $requireResults[$i][$requireid] ?>">Edit</a></span></span>
 </p>
 </footer>
 </div>
